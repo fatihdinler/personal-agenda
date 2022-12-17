@@ -1,19 +1,33 @@
 import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ToDoSlice from '../../components/to-do/to-do-slice'
 import getColors from '../../colors/get-colors'
 import AddToDoModal from '../../components/to-do/add-to-do-modal'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const ToDoScreen = () => {
 
+  useEffect(() => {
+    findTodos()
+  }, [])
+
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [todos, setTodos] = useState([])
 
   const displayModal = () => {
     setIsModalVisible(!isModalVisible)
   }
 
+  const findTodos = async () => {
+    const result = await AsyncStorage.getItem('todos')
+    if(result !== null) {
+      setTodos(JSON.parse(result)) 
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <ToDoSlice />
+      <ToDoSlice data={todos} />
       <Modal
         animationType={"fade"}
         transparent={false}
@@ -22,7 +36,7 @@ const ToDoScreen = () => {
 
         }}
       >
-        <AddToDoModal  visibility={displayModal}/>
+        <AddToDoModal visibility={displayModal} todos={todos} setTodos={setTodos}/>
       </Modal>
       <TouchableOpacity style={styles.addButton} onPress={displayModal}>
         <Text style={{ color: 'white', alignSelf: 'center', }}>+</Text>

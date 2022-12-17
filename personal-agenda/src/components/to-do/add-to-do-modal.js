@@ -2,24 +2,38 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'reac
 import React, { useState } from 'react'
 import getColors from '../../colors/get-colors'
 import getDimensions from '../../dimensions/get-dimensions'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AddToDoModal = ({ visibility }) => {
+const AddToDoModal = ({ visibility, todos, setTodos }) => {
+
 
   const [todoText, setTodoText] = useState('')
 
-  const handleTouch = () => {
-    if(todoText.length == 0) {
+  
+
+  const handleTouch = async () => {
+    if (todoText.length == 0) {
       Alert.alert('Boş to do eklenemez !')
     }
-    else if(todoText.length !== 0) {
+    else if (todoText.length !== 0) {
+      const time = new Date()
+      const todo = { id : time, text : todoText, isDone : false}
+      const updatedTodos = [...todos, todo]
+      setTodos(updatedTodos)
+      await AsyncStorage.setItem('todos', JSON.stringify(updatedTodos))
+      setTodoText('')
       visibility()
     }
   }
-  
+
+
+
+
+
   return (
     <View style={styles.container}>
       <TextInput
-        value = {todoText}
+        value={todoText}
         onChangeText={(text) => setTodoText(text)}
         style={styles.textinput}
         placeholder='Bir to do gir...'
@@ -40,13 +54,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  textinput : {
-    width : getDimensions.SCREEN_WIDTH / 1.1,
-    borderWidth : 1,
-    borderColor : getColors.BLUE,
-    padding : 15,
-    borderRadius : 8,
-    marginBottom : 15,
+  textinput: {
+    width: getDimensions.SCREEN_WIDTH / 1.1,
+    borderWidth: 1,
+    borderColor: getColors.BLUE,
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 15,
   },
   button: {
     width: getDimensions.SCREEN_WIDTH / 1.1,
