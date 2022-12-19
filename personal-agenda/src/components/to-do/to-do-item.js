@@ -6,30 +6,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ToDoItem = ({ content, isCompleted, id }) => {
 
-    console.log(isCompleted)
     const [isDone, setIsDone] = useState(false)
+    const [isDoneFromData, setIsDoneFromData] = useState(false)
 
     const handleTouch = () => {
         setIsDone(!isDone)
         get()
-        console.log(isCompleted)
     }
 
     const get = async () => {
         const result = await AsyncStorage.getItem('todos')
         const allValues = JSON.parse(result)
-        allValues.map(item => {
-            if(item.id == id) {
-                item.isDone = !isDone
-            }
+        const x = allValues.filter(item => {
+            return item.id == id ? item : null
         })
+        x[0].isDone = !isDone
+        console.log(x[0].isDone)
+        setIsDoneFromData(x[0].isDone)
     }
 
     return (
-        <TouchableOpacity style={[styles.container, { backgroundColor: isDone ? colors.GREEN : '#fff' }]} onPress={handleTouch}>
-            <View style={[styles.isDoneView, { backgroundColor: isDone ? '#fff' : colors.GREEN }]}></View>
+        <TouchableOpacity style={[styles.container, { backgroundColor: isDoneFromData ? colors.GREEN : '#fff' }]} onPress={handleTouch}>
+            <View style={[styles.isDoneView, { backgroundColor: isDoneFromData ? '#fff' : colors.GREEN }]}></View>
             <View style={styles.toDoText}>
-                <Text style={{ color: isDone ? '#fff' : '#000' }}>{content}</Text>
+                <Text style={{ color: isDoneFromData ? '#fff' : '#000' }}>{content}</Text>
             </View>
         </TouchableOpacity>
     )
