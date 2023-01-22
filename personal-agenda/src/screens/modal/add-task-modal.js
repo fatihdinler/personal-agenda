@@ -33,7 +33,11 @@ const AddTaskModal = ({ modalVisibility }) => {
             try {
                 let task = {
                     title : title,
-                    description : description
+                    description : description,
+                    dateTime : new Date().toLocaleDateString('tr-TR', {
+                        year : 'numeric', month : '2-digit', day : '2-digit',
+                        hour : '2-digit' , minute : '2-digit' , second : '2-digit'
+                    })
                 }
                 let newTasks = [...tasks, task]
                 AsyncStorage.setItem('tasks', JSON.stringify(newTasks))

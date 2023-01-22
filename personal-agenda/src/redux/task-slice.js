@@ -4,6 +4,7 @@ export const taskSlice = createSlice({
     name : 'tasks',
     initialState : {
         tasks : [],
+        taskID : 1,
     },
     reducers : {
         setTasks : (state, action) => {

@@ -49,6 +49,13 @@ const App = () => {
           <Stack.Screen
             name='to-do-details'
             component={ToDoDetails}
+            options={{
+              headerStyle : {
+                backgroundColor : colors.BLUE,
+              },
+              headerTitle : () => <Text style={{color : 'white', fontWeight : '300', fontSize : 23}}>List of details</Text>,
+                            
+            }}
           />  
         </Stack.Navigator>
       </Provider>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Modal, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Modal, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import colors from '../../colors/colors'
@@ -31,48 +31,48 @@ const ToDoScreen = () => {
             .catch(err => console.log(err))
     }
 
+    const deleteTask = (title, description) => {
+        const filteredTasks = tasks.tasks?.filter(task => (task.title !== title ) && (task.description !== description))
+        AsyncStorage.setItem('tasks', JSON.stringify(filteredTasks))
+            .then(() => {
+                dispatch(setTasks(filteredTasks))
+            })
+        console.log(filteredTasks)
+    }
+
     const handleBlueButton = () => {
         setModalVisible(!modalVisible)
     }
 
-
     return (
         <View style={styles.viewContaniner}>
-            <Modal
-                animationType="slide"
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(!modalVisible)}
-            >
-                <AddTaskModal modalVisibility={() => setModalVisible(false)} />
-            </Modal>
-            {
-                tasks.tasks.map((item, index) => {
-                    return(
-                        <View>
-                            <TaskBox
-                                title={item.title}
-                                description={item.description}
-                                key={index}
-                            />
-                        </View>
-                    )
-                })
-            }
+            <ScrollView>
+                <Modal
+                    animationType="slide"
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(!modalVisible)}
+                >
+                    <AddTaskModal modalVisibility={() => setModalVisible(false)} />
+                </Modal>
+                {
+                    tasks.tasks?.map((item, index) => {
+                        return (
+                            <View>
+                                <TaskBox
+                                    title={item.title}
+                                    description={item.description}
+                                    dateTime={item.dateTime}
+                                    onLongPressEvent={() => deleteTask(item.title, item.description)}
+                                    key={index}
+                                />
+                            </View>
+                        )
+                    })
+                }
+            </ScrollView>
             <TouchableOpacity style={styles.button} onPress={handleBlueButton}>
                 <Text style={{ color: 'white', fontSize: 20, }}>+</Text>
             </TouchableOpacity>
-            
-            {/* {
-                tasks.tasks?.map(item => {
-                    return(
-                        <View>
-                            <Text>{item.title}</Text>
-                            <Text>{item.description}</Text>
-                        </View>
-                        
-                    )
-                })
-            } */}
         </View>
     )
 }
