@@ -9,6 +9,7 @@ import colors from './src/colors/colors'
 import getTime from './src/helper/get-time'
 import { Provider } from 'react-redux'
 import { store } from './src/redux/store'
+import FolderScreen from './src/screens/stack/folder-screen'
 
 const App = () => {
 
@@ -19,7 +20,7 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <Stack.Navigator>
-          <Stack.Screen
+          {/* <Stack.Screen
             name='to-do-screen'
             component={ToDoScreen}
             options={{
@@ -56,7 +57,14 @@ const App = () => {
               headerTitle : () => <Text style={{color : 'white', fontWeight : '300', fontSize : 23}}>List of details</Text>,
                             
             }}
-          />  
+          />   */}
+          <Stack.Screen
+            name='folder-screen'
+            component={FolderScreen}
+            options={{
+              headerShown : false,
+            }}
+          />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
