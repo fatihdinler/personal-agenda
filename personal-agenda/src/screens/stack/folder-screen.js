@@ -43,14 +43,14 @@ const FolderScreen = () => {
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.divider} />
         <Text style={styles.title}>
-          TO <Text style={{ fontWeight: '300', color: colors.BLUE }}>DO</Text>
+          TO <Text style={{ fontWeight: '300', color: colors.LIGHT_ACCENT_BLUE }}>DO</Text>
         </Text>
         <View style={styles.divider} />
       </View>
 
       <View style={{ marginVertical: 48 }}>
         <TouchableOpacity style={styles.addList} onPress={toggleModalVisible}>
-          <AntDesign name="plus" size={16} color={colors.blue} />
+          <AntDesign name="plus" size={16} color={colors.LIGHT_ACCENT_BLUE} />
         </TouchableOpacity>
         <Text style={styles.add}>Add List</Text>
       </View>
