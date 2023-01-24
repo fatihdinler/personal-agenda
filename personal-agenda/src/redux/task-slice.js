@@ -12,9 +12,12 @@ export const taskSlice = createSlice({
     reducers : {
         setTasks : (state, action) => {
             state.tasks.folders = {...state, tasks : action.payload}
+        },
+        setTodos : (state, action) => {
+            
         }
     }
 })
 
-export const { setFolderName, setTodos, setColor, setTasks } = taskSlice.actions
+export const { setTodos, setTasks } = taskSlice.actions
 export default taskSlice.reducer

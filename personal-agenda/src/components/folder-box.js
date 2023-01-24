@@ -1,10 +1,41 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
-const FolderBox = ({ name, color, todos }) => {
+const FolderBox = ({ name, color, todos, onLongPressEvent }) => {
+
+    const navigation = useNavigation()
+
+    const handlePress = () => {
+        navigation.navigate('folder-details-screen', {
+            name : name,
+            color : color,
+            todos : todos
+        })
+    }   
+
+    const handleLongPress = () => {
+        Alert.alert(
+            'Caution !',
+            'Are you sure about to delete this to do ?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => onLongPressEvent()
+                },
+                {
+                    text: 'Cancel',
+                    onPress: () => null
+                }
+            ]
+        )
+    }
+
     return (
         <TouchableOpacity
             style={[styles.listContainer, { backgroundColor: color }]}
+            onLongPress={handleLongPress}
+            onPress={handlePress}
         >
             <Text style={styles.listTitle} numberOfLines={1}>{name}</Text>
             <View>

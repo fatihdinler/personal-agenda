@@ -81,7 +81,7 @@ const AddFolderModal = ({ closeModal }) => {
                     <Text style={{ color: 'black', fontWeight: '600' }}>Create</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{ position: 'absolute', top: 32, right: 32 }} onPress={() => props.closeModal()}>
+            <TouchableOpacity style={{ position: 'absolute', top: 32, right: 32 }} onPress={() => closeModal()}>
                 <AntDesign name='close' size={32} color={'black'} />
             </TouchableOpacity>
 

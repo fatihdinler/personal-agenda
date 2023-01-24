@@ -31,6 +31,15 @@ const FolderScreen = () => {
             .catch(err => console.log(err))
     }
 
+    const deleteTasks = (name, color) => {
+        const filteredFolders = folders.filter(folder => (folder.name !== name) && (folder.color !== color))
+        AsyncStorage.setItem('to-do', JSON.stringify(filteredFolders))
+            .then(() => {
+                dispatch(setTasks(filteredFolders))
+            })
+            console.log(filteredFolders)
+    }
+
     return (
         <View style={styles.container}>
             <Modal animationType='slide' visible={isModalVisible} onRequestClose={() => toggleModalVisible()}>
@@ -66,6 +75,7 @@ const FolderScreen = () => {
                                 name={item.name}
                                 color={item.color}
                                 todos={item.todos}
+                                onLongPressEvent={() => deleteTasks(item.name, item.color)}
                             />
                         )
                     }}
